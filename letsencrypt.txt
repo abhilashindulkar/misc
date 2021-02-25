@@ -1,0 +1,127 @@
+Resources: https://certbot.eff.org/lets-encrypt
+
+1. SSH into the server
+----------------------------------------------------------------------------------------------------------------
+2. Install snapd
+
+this will be preinstalled on ubuntu-18.04,20.04
+
+------------------------
+
+For RHEL 8
+
+sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+sudo dnf upgrade
+
+For RHEL 7
+
+sudo rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+sudo subscription-manager repos --enable "rhel-*-optional-rpms" --enable "rhel-*-extras-rpms"
+sudo yum update
+
+--------------------
+
+Once the repository is added, install Snapd
+
+sudo yum install snapd
+
+main snap communication socket needs to be enabled
+
+sudo systemctl enable --now snapd.socket
+
+To enable classic snap support, enter the following to create a symbolic link between /var/lib/snapd/snap and /snap:
+
+sudo ln -s /var/lib/snapd/snap /snap
+
+--------------------------------------------------------------------------------------------------------------------
+3.Remove certbot-auto and any Certbot OS packages
+
+sudo apt-get remove certbot -------------- sudo dnf remove certbot ------------- sudo yum remove certbot
+
+4. Install Certbot 
+
+** Prerequisite-Python2.7+
+
+For Ubuntu: sudo apt-get install python -y
+
+For RHEL: sudo yum install python2/python3 -y 
+
+sudo snap install --classic certbot
+
+---------------------------------------------------------------------------------------------------------------------
+
+5. Prepare the Certbot command
+
+sudo ln -s /snap/bin/certbot /usr/bin/certbot
+
+---------------------------------------------------------------------------------------------------------------------
+
+6. Run Certbot when app server is stopped
+
+sudo certbot certonly --standalone
+
+** above command will ask for prompts.. like where it should send the renewal notfication, enter emailid. Specify the domain you need cert for, example.domain.net(before this map ip with the domain as A record, confirm port 80 is accessible from the server)
+
+After adding all the details..it will give as congratulation, cert is generated in the path /etc/letsencrypt/live/example.domain.net/
+
+---------------------------------------------------------------------------------------------------------------------
+
+7. Configuring the cert into Apache Tomcat server
+
+Copy the certs (fullchain.pem and privkey.pem) into some location preferrably tomcat/conf directory
+
+---------------------------------------------------------------------------------------------------------------------
+
+8. Download APR Native Library
+
+By default, tomcat doesnt come with native library installed. 
+
+On Ubuntu: sudo apt-get install libtcnative-1 
+
+On RHEL: sudo yum install tomcat-native -y
+
+---------------------------------------------------------------------------------------------------------------------
+
+9. Open server.xml file located in tomcat/conf directory
+
+Uncomment or add the below the fragment
+
+<Connector port="8443" protocol="org.apache.coyote.http11.Http11AprProtocol"
+               maxThreads="150" SSLEnabled="true" >
+        <UpgradeProtocol className="org.apache.coyote.http2.Http2Protocol" />
+        <SSLHostConfig>
+                <Certificate certificateKeyFile="conf/privkey.pem"
+                         certificateFile="conf/fullchain.pem"
+                         type="RSA" />
+        </SSLHostConfig>
+</Connector>
+
+---------------------------------------------------------------------------------------------------------------------
+
+10. Start the tomcat, it will be listened on port 8080 and 8443.
+
+If wanted to redirect the port from 8443 to 443, run the below command
+
+sudo iptables -A PREROUTING -t nat -i eth0 -p tcp --dport 443 -j REDIRECT --to-port 8443
+
+---------------------------------------------------------------------------------------------------------------------
+
+11. Once the server is up, we can access the cert with the domain we provided. 443 port must be enabled from the firewall.
+
+
+https://example.domain.net
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
