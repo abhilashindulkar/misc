@@ -111,6 +111,19 @@ sudo iptables -A PREROUTING -t nat -i eth0 -p tcp --dport 443 -j REDIRECT --to-p
 
 https://example.domain.net
 
+---------------------------------------------------------------------------------------------------------------------
+
+12. To renew cert automatically, install crontab
+
+crontab -e
+
+0 0 1 */3 * /usr/bin/certbot renew > /dev/null 2>&1 #Run At 00:00 on day-of-month 1 in every 3rd month
+
+Save and exit.
+
+
+
+
 
 
 
