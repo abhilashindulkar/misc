@@ -16,6 +16,8 @@ kubectl get rc      #get replication controller
 
 kubectl get rs      #get replicaset
 
+kubectl get all     #get all
+
 --------------------------------------------------------------------
 
 kubectl proxy pod --port=8080   #proxy pod to the specified port
@@ -42,6 +44,8 @@ kubectl edit pod pod-id                 #edit pod
 kubectl scale rs rep-set --replicas=2
 
 kubectl scale  --replicas=1 -f rep-set.yml
+
+kubectl scale --replicas=1 deploy my-deployment
 
 
 ---------------------------------------------------------------------
