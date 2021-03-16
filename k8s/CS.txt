@@ -1,0 +1,25 @@
+kubectl get nodes #get nodes
+
+kubectl get deploy  #get deployments
+
+kubectl get pods    #get pods
+
+kubectl get svc     #get services
+
+kubectl get cm      #get configmaps
+
+kubectl get ns      #get namespaces
+
+kubectl get crd     #get custom resource definitions
+
+--------------------------------------------------------------------
+
+kubectl proxy pod --port=8080   #proxy pod to the specified port
+
+kubectl port-forward 8080:80    #port forward container port 80 to host port 8080
+
+--------------------------------------------------------------------
+
+kubectl delete deploy some-deploy   #delete deployment
+
+kubectl delete pod samplepod    #delete pod
