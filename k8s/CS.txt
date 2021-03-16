@@ -12,6 +12,10 @@ kubectl get ns      #get namespaces
 
 kubectl get crd     #get custom resource definitions
 
+kubectl get rc      #get replication controller
+
+kubectl get rs      #get replicaset
+
 --------------------------------------------------------------------
 
 kubectl proxy pod --port=8080   #proxy pod to the specified port
@@ -23,3 +27,27 @@ kubectl port-forward 8080:80    #port forward container port 80 to host port 808
 kubectl delete deploy some-deploy   #delete deployment
 
 kubectl delete pod samplepod    #delete pod
+
+kubectl delete svc some-service #delete service
+
+--------------------------------------------------------------------
+
+kubectl get pod pod-id -o yaml > pod-def.yaml
+
+kubectl edit pod pod-id                 #edit pod
+
+
+--------------------------------------------------------------------
+
+kubectl scale rs rep-set --replicas=2
+
+kubectl scale  --replicas=1 -f rep-set.yml
+
+
+---------------------------------------------------------------------
+
+kubectl create -f pod-def.yml   #create resource of kind
+
+kubectl replace -f pod-def.yml  #replace the existing resource with updated details
+
+kubectl apply -f some-yml   #apply some yaml to existing yml
