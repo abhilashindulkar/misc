@@ -18,6 +18,8 @@ kubectl get rs      #get replicaset
 
 kubectl get all     #get all
 
+kubectl get all --all-namespaces
+
 --------------------------------------------------------------------
 
 kubectl proxy pod --port=8080   #proxy pod to the specified port
@@ -55,3 +57,17 @@ kubectl create -f pod-def.yml   #create resource of kind
 kubectl replace -f pod-def.yml  #replace the existing resource with updated details
 
 kubectl apply -f some-yml   #apply some yaml to existing yml
+
+kubectl run nginx --image=nginx
+
+kubectl create deployment --image=nginx nginx
+
+kubectl create deployment nginx --image=nginx -o yaml > nginx-deployment.yaml
+
+----------------------------------------------------------------------
+
+kubectl <command> -o yaml/json/wide/name #outputs
+
+----------------------------------------------------------------------
+
+kubectl config set-context $(kubectl config current-context) --namespace=abhilash   #set namespace
