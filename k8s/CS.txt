@@ -71,3 +71,24 @@ kubectl <command> -o yaml/json/wide/name #outputs
 ----------------------------------------------------------------------
 
 kubectl config set-context $(kubectl config current-context) --namespace=abhilash   #set namespace
+
+
+----------------------------------------------------------------------
+
+kubectl create configmap <somecm-name> --from-literal=<key>=<value>
+
+kubectl create secret <somesecret-name> --from-literal=<key>=<value>
+
+kubectl create configmap <somecm-name> --from-file=file.properties
+
+kubectl create secret <somesecret-name> --from-file=file.properties
+
+-----------------------------------------------------------------------
+
+echo -n "sometext" | base64
+
+echo cm9vdA== | base64 --decode      #base64 encode and decode for secrets
+
+------------------------------------------------------------------------
+
+

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: samplepod
+  labels:
+    name: myapp
+    type: front-end
+
+spec:
+  containers:
+    - name: nginx-app
+      image: nginx
+      envFrom: 
+        - configMapRef:
+            name: app-config
