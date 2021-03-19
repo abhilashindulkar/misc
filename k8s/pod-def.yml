@@ -10,3 +10,6 @@ spec:
   containers:
     - name: nginx-app
       image: nginx
+      env: 
+        - name: key
+          value: value
