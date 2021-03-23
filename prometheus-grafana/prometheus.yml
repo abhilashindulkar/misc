@@ -1,0 +1,8 @@
+prometheus:
+  prometheusSpec:
+    additionalScrapeConfigs:
+      - job_name: job-name
+        scrape_interval: 15s
+        metrics_path: /path-to/metrics
+        static_configs:
+        - targets: ['IP:8081']
