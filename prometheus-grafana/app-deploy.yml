@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deploy
+  labels:
+    app: myappp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myappp
+  template:
+    metadata:
+      labels:
+        app: myappp
+      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: '8081'
+        prometheus.io/path: '/myapp/metrics'
+    spec:
+      containers:
+      - name: myappp
+        image: <some-image-tag>
+        env:
+        - name: key
+          value: value
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+      - name: abhilash-secret
+
