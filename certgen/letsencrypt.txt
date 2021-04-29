@@ -78,7 +78,7 @@ By default, tomcat doesnt come with native library installed.
 
 On Ubuntu: sudo apt-get install libtcnative-1 
 
-On RHEL: sudo yum install tomcat-native -y
+On RHEL: sudo yum install apr tomcat-native -y
 
 ---------------------------------------------------------------------------------------------------------------------
 
