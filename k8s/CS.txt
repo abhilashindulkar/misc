@@ -22,9 +22,9 @@ kubectl get all --all-namespaces
 
 --------------------------------------------------------------------
 
-kubectl proxy pod --port=8080   #proxy pod to the specified port
+kubectl proxy pod pod-id --port 8080   #proxy pod to the specified port
 
-kubectl port-forward 8080:80    #port forward container port 80 to host port 8080
+kubectl port-forward pod-id 8080:80    #port forward container port 80 to host port 8080
 
 --------------------------------------------------------------------
 
@@ -82,6 +82,18 @@ kubectl create secret <somesecret-name> --from-literal=<key>=<value>
 kubectl create configmap <somecm-name> --from-file=file.properties
 
 kubectl create secret <somesecret-name> --from-file=file.properties
+
+-----------------------------------------------------------------------
+
+kubectl taint node <node-name> key=value:taint-effect(NoSchedule,PreferNoSchedule,NoExecute)
+
+kubectl taint node master taint-effect-
+
+-----------------------------------------------------------------------
+
+kubectl explain pod --recursive | less
+
+kubectl explain pod --recursive | grep -A5 keyword
 
 -----------------------------------------------------------------------
 

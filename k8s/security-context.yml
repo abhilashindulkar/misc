@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata: 
+  name: security-context
+  labels: 
+    type: sec
+spec:
+  containers:
+    - name: ubuntu
+      image: ubuntu
+      command: ["sleep", "300"]
+      securityContext:
+        runAsUser: 1000
+        capabilities:
+          add: ["MAC_ADMIN"]
