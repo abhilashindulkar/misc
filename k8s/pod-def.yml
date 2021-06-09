@@ -13,3 +13,4 @@ spec:
       env: 
         - name: key
           value: value
+  restartPolicy: Never/Always(default)/

@@ -16,6 +16,10 @@ kubectl get rc      #get replication controller
 
 kubectl get rs      #get replicaset
 
+kubectl get jobs    #get jobs (batch job;terminate once finished)
+
+kubectl get cronjob #get cronjobs(scheduled jobs)
+
 kubectl get all     #get all
 
 kubectl get all --all-namespaces
@@ -97,10 +101,36 @@ kubectl explain pod --recursive | grep -A5 keyword
 
 -----------------------------------------------------------------------
 
+kubectl label node node-name key=value //for nodeselector-nodeaffinity
+
+kubectl get pods --selector key=value or kubectl get pods -l key=value
+
+kubectl get pods --show-labels
+
+kubectl get pods -l key=value --no-headers | wc -l
+
+-----------------------------------------------------------------------
+
+kubectl rollout status deploy deployment
+
+kubectl rollout history deploy deployment
+
+kubectl rollout undo deploy deployment
+
+kubectl set image deployment nginx=nginx:1.16
+
+kubectl rollout history deployment nginx --revision=1
+
+kubectl set image deployment nginx nginx=nginx:1.17 --record
+
+-----------------------------------------------------------------------
 echo -n "sometext" | base64
 
 echo cm9vdA== | base64 --decode      #base64 encode and decode for secrets
 
 ------------------------------------------------------------------------
 
-
+kind: v1    Pod, ReplicationController
+      app/v1    Deployment, ReplicaSet
+      batch/v1  Job
+      batch/v1beta1 CronJob
