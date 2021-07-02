@@ -77,6 +77,9 @@ Copy the certs (fullchain.pem and privkey.pem) into some location preferrably to
 By default, tomcat doesnt come with native library installed. 
 
 On Ubuntu: sudo apt-get install libtcnative-1 
+sudo add-apt-repository ppa:pharmgkb/trusty
+sudo apt-get update
+sudo apt-get upgrade libtcnative-1
 
 On RHEL: sudo yum install apr tomcat-native -y
 

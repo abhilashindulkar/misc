@@ -130,7 +130,9 @@ echo cm9vdA== | base64 --decode      #base64 encode and decode for secrets
 
 ------------------------------------------------------------------------
 
-kind: v1    Pod, ReplicationController
+kubectl create secret docker-registry registrycreds --docker-server=https://index.docker.io/v1/ --docker-username=abhilash --docker-password=password --docker-email=abc-xyz@gmail.com  
+
+kind: v1    Pod, ReplicationController, Service
       app/v1    Deployment, ReplicaSet
       batch/v1  Job
       batch/v1beta1 CronJob
