@@ -4,8 +4,8 @@ metadata:
   name: alpine-pod
 spec: 
   containers:
-    - name: alpine-container
-      image: alpine:latest
-      command: ["sleep"]
-      args: ["10"]
+  - name: alpine-container
+    image: alpine:latest
+    command: ["sleep"]
+    args: ["10"]
   
