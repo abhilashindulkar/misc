@@ -24,6 +24,8 @@ kubectl get all     #get all
 
 kubectl get all --all-namespaces
 
+kubectl get pods --selector app=nginx, tier=front-end # get pods through the use of lables and selectors
+
 --------------------------------------------------------------------
 
 kubectl proxy pod pod-id --port 8080   #proxy pod to the specified port

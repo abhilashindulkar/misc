@@ -1,0 +1,13 @@
+# required when there is no scheduler present.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: samplepod
+  labels:
+    app: app-pod
+    type: frontend
+spec:
+  containers:
+  - name: nginx-app
+    image: nginx
+  nodeName: node-02

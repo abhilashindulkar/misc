@@ -1,0 +1,11 @@
+# manually schedule the pod to the existing node; curl POST request has to be performed with the below JSON transformed data.
+
+apiVersion: v1
+kind: Binding
+metadata:
+  name: samplepod
+target:
+  apiVersion: v1
+  kind: Node
+  node: node-01
+  
