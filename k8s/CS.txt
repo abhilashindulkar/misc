@@ -1,26 +1,28 @@
-kubectl get nodes #get nodes
+kubectl get nodes # get nodes
 
-kubectl get deploy  #get deployments
+kubectl get deploy  # get deployments
 
-kubectl get pods    #get pods
+kubectl get pods    # get pods
 
-kubectl get svc     #get services
+kubectl get svc     # get services
 
-kubectl get cm      #get configmaps
+kubectl get cm      # get configmaps
 
-kubectl get ns      #get namespaces
+kubectl get ns      # get namespaces
 
-kubectl get crd     #get custom resource definitions
+kubectl get crd     # get custom resource definitions
 
-kubectl get rc      #get replication controller
+kubectl get rc      # get replication controller
 
-kubectl get rs      #get replicaset
+kubectl get rs      # get replicaset
 
-kubectl get jobs    #get jobs (batch job;terminate once finished)
+kubectl get ds      # get daemonset 
 
-kubectl get cronjob #get cronjobs(scheduled jobs)
+kubectl get jobs    # get jobs (batch job;terminate once finished)
 
-kubectl get all     #get all
+kubectl get cronjob # get cronjobs(scheduled jobs)
+
+kubectl get all     # get all
 
 kubectl get all --all-namespaces
 
@@ -28,17 +30,17 @@ kubectl get pods --selector app=nginx, tier=front-end # get pods through the use
 
 --------------------------------------------------------------------
 
-kubectl proxy pod pod-id --port 8080   #proxy pod to the specified port
+kubectl proxy pod pod-id --port 8080   # proxy pod to the specified port
 
-kubectl port-forward pod-id 8080:80    #port forward container port 80 to host port 8080
+kubectl port-forward pod-id 8080:80    # port forward container port 80 to host port 8080
 
 --------------------------------------------------------------------
 
-kubectl delete deploy some-deploy   #delete deployment
+kubectl delete deploy some-deploy   # delete deployment
 
-kubectl delete pod samplepod    #delete pod
+kubectl delete pod samplepod    # delete pod
 
-kubectl delete svc some-service #delete service
+kubectl delete svc some-service # delete service
 
 --------------------------------------------------------------------
 
@@ -58,11 +60,11 @@ kubectl scale --replicas=1 deploy my-deployment
 
 ---------------------------------------------------------------------
 
-kubectl create -f pod-def.yml   #create resource of kind
+kubectl create -f pod-def.yml   # create resource of kind
 
-kubectl replace -f pod-def.yml  #replace the existing resource with updated details
+kubectl replace -f pod-def.yml  # replace the existing resource with updated details
 
-kubectl apply -f some-yml   #apply some yaml to existing yml
+kubectl apply -f some-yml   # apply some yaml to existing yml
 
 kubectl run nginx --image=nginx
 
@@ -72,11 +74,11 @@ kubectl create deployment nginx --image=nginx -o yaml > nginx-deployment.yaml
 
 ----------------------------------------------------------------------
 
-kubectl <command> -o yaml/json/wide/name #outputs
+kubectl <command> -o yaml/json/wide/name # outputs
 
 ----------------------------------------------------------------------
 
-kubectl config set-context $(kubectl config current-context) --namespace=abhilash   #set namespace
+kubectl config set-context $(kubectl config current-context) --namespace=abhilash   # set namespace
 
 
 ----------------------------------------------------------------------
@@ -103,7 +105,7 @@ kubectl explain pod --recursive | grep -A5 keyword
 
 -----------------------------------------------------------------------
 
-kubectl label node node-name key=value //for nodeselector-nodeaffinity
+kubectl label node node-name key=value # for nodeselector-nodeaffinity
 
 kubectl get pods --selector key=value or kubectl get pods -l key=value
 
@@ -132,9 +134,9 @@ echo cm9vdA== | base64 --decode      #base64 encode and decode for secrets
 
 ------------------------------------------------------------------------
 
-kubectl create secret docker-registry registrycreds --docker-server=https://index.docker.io/v1/ --docker-username=abhilash --docker-password=password --docker-email=abc-xyz@gmail.com  
+kubectl create secret docker-registry registrycreds --docker-server=https://index.docker.io/v1/ --docker-username=user --docker-password=password --docker-email=abc-xyz@gmail.com  
 
-kind: v1    Pod, ReplicationController, Service
-      app/v1    Deployment, ReplicaSet
+kind: v1    Pod, ReplicationController, Service, NodeSelector, NodeAffinity
+      app/v1    Deployment, ReplicaSet, DaemonSet
       batch/v1  Job
       batch/v1beta1 CronJob

@@ -1,0 +1,14 @@
+# stored at /etc/kubernetes/manifests; deployed by kubelet(/var/lib/kubelet/config.yml)
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: static-busybox
+  labels:
+    name: busybox
+spec:
+  containers:
+  - name: static-busybox-container
+    image: busybox
+    command: ["/bin/sh"]
+    args: ["-c", "while true; do echo hello; sleep 10000;done"]
