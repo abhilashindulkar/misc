@@ -1,5 +1,5 @@
 {
-    "yaml.schemas": {
-        "kubernetes://schema/v1%40binding": "file:///home/abhilash/work/rep/priv/misc/k8s/scheduler/manual-schedule-pod.yml"
-    }
+    "[yaml]": {
+        "editor.formatOnSave": true
+      }
 }

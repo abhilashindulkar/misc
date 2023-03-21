@@ -128,6 +128,12 @@ kubectl rollout history deployment nginx --revision=1
 kubectl set image deployment nginx nginx=nginx:1.17 --record
 
 -----------------------------------------------------------------------
+
+kubectl logs -f nginx     # live logs for pod with one container
+
+kubectl logs -f nginx help-container  # live logs for pod with specific container running inside the pod
+
+-----------------------------------------------------------------------
 echo -n "sometext" | base64
 
 echo cm9vdA== | base64 --decode      #base64 encode and decode for secrets

@@ -1,0 +1,48 @@
+apiVersion: kubescheduler.config.k8s.io/v1
+kind: KubeSchedulerConfiguration
+profiles:
+- schedulerName: custom-scheduler
+# only when multiple master nodes are present
+leaderElection:
+- leaderElect: true
+
+---
+# if passed through configmap
+apiVersion: v1
+data:
+  my-scheduler-config.yaml: |
+    apiVersion: kubescheduler.config.k8s.io/v1beta2
+    kind: KubeSchedulerConfiguration
+    profiles:
+      - schedulerName: my-scheduler
+    leaderElection:
+      leaderElect: false
+kind: ConfigMap
+metadata:
+  name: my-scheduler-config
+  namespace: kube-system
+
+---
+
+# configmap mounted for custom scheduler
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: my-scheduler
+  name: my-scheduler
+  namespace: kube-system
+spec:
+  serviceAccountName: my-scheduler
+  containers:
+  - command:
+    - /usr/local/bin/kube-scheduler
+    - --config=/etc/kubernetes/my-scheduler/my-scheduler-config.yaml
+    image: registry.k8s.io/kube-scheduler:v1.26.0
+    volumeMounts:
+    - name: config-volume
+      mountPath: /etc/kubernetes/my-scheduler
+  volumes:
+  - name: config-volume
+    configMap:
+      name: my-scheduler-config
