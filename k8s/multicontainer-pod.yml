@@ -4,7 +4,7 @@ metadata:
   name: multicontainer-pod
 spec:
   containers:
-    - name: front-end
-      image: nginx
-    - name: back-end
-      image: redis
+  - name: front-end
+    image: nginx
+  - name: back-end
+    image: redis

@@ -8,9 +8,9 @@ metadata:
 
 spec:
   containers:
-    - name: nginx-app
-      image: nginx
-      env: 
-        - name: key
-          value: value
+  - name: nginx-app
+    image: nginx
+    env:
+    - name: key
+      value: value
   restartPolicy: Never/Always(default)/

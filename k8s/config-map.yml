@@ -3,5 +3,25 @@ kind: ConfigMap
 metadata:
   name: app-config
 data:
-  key: value
-  name: abhilash
+  NAME: abhilash
+
+---
+
+# with env
+apiVersion: v1
+kind: Pod
+metadata:
+  name: samplepod
+  labels:
+    name: myapp
+    type: front-end
+spec:
+  containers:
+  - name: nginx-app
+    image: nginx
+    env:
+    - name: NAME
+      valueFrom:
+        configMapKeyRef:
+          name: app-config
+          key: NAME
