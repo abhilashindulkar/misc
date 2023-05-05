@@ -142,6 +142,12 @@ echo cm9vdA== | base64 --decode      #base64 encode and decode for secrets
 
 kubectl create secret docker-registry registrycreds --docker-server=https://index.docker.io/v1/ --docker-username=user --docker-password=password --docker-email=abc-xyz@gmail.com  
 
+------------------------------------------------------------------------
+
+kubectl create token service-account-name  # with 1.24, service account doesnt get created with secret and non expiry token.
+
+------------------------------------------------------------------------
+
 kind: v1    Pod, ReplicationController, Service, NodeSelector, NodeAffinity
       app/v1    Deployment, ReplicaSet, DaemonSet
       batch/v1  Job

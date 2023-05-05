@@ -1,0 +1,5 @@
+Basic authentication is deprecated in 1.19. Its no longer available in the newer release.
+
+Getting pods through rest api.
+
+curl -v -k https://localhost:6443/api/v1/pods -u "user1:password123"
