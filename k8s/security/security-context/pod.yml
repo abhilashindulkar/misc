@@ -1,0 +1,39 @@
+# Security Context at pod level
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp
+  labels:
+    name: myapp
+spec:
+  securityContext:
+    runAsUser: 1000
+  containers:
+  - name: ubuntu
+    image: ubuntu
+    command:
+    - "sleep"
+    - "3600"
+
+---
+
+# Security Context at Container level
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp
+  labels:
+    name: myapp
+spec:
+  securityContext:
+    runAsUser: 1000
+  containers:
+  - name: ubuntu
+    image: ubuntu
+    command:
+    - "sleep"
+    - "3600"
+    securityContext:
+      runAsUser: 1000
+      capabilities:
+        add: ["NET_ADMIN"]

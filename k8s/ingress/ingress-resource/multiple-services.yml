@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-web
+  labels:
+    name: ingress-web
+spec:
+  rules:
+  - http:
+    paths:
+    - path: /api
+      pathType: Prefix
+      backend:
+        service:
+          name: web-service
+        port:
+          number: 80
+    - path: /docs
+      pathType: Prefix
+      backend:
+        service:
+          name: doc-service
+        port:
+          number: 80
