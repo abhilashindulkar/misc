@@ -1,0 +1,19 @@
+# Inventory - Server Details.
+web1 ansible_host=webserver1.local.net ansible_connection=ssh ansible_user=root ansible_ssh_pass=random
+web2 ansible_host=webserver1.local.net ansible_connection=winrm ansible_user=admin ansible_password=random
+web3 ansible_host=webserver3.local.net ansible_connection=ssh ansible_user=root ansible_ssh_pass=random
+db1 ansible_host=dbserver1.local.net ansible_connection=winrm ansible_user=admin ansible_password=random
+db2 ansible_host=dbserver2.local.net ansible_connection=ssh ansible_user=root ansible_ssh_pass=random
+
+[web_servers]
+web1 ansible_host=webserver1.local.net
+web2 ansible_host=webserver2.local.net
+web3 ansible_host=webserver3.local.net
+
+[db_servers]
+db1 ansible_host=dbserver1.local.net
+db2 ansible_host=dbserver2.local.net
+
+[all_servers:children]
+web_servers
+db_servers

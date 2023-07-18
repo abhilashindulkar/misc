@@ -1,0 +1,10 @@
+---
+- name: Line In File Module Playbook
+  hosts: all
+  become: yes
+  tasks:
+  - name: Add line, create file if it doesn't exist
+    lineinfile:
+       path: /tmp/index.html
+       line: Hello world
+       create: true

@@ -1,0 +1,17 @@
+---
+- name: Setup mysql, nginx - Simple
+  hosts: dbserver
+  become: yes
+  roles:
+    - community.mysql
+    - community.nginx
+
+---
+
+- name: Setup mysql
+  hosts: dbserver
+  become: yes
+  roles:
+    - role: community.mysql
+      vars:
+        mysql_user_name: db_user

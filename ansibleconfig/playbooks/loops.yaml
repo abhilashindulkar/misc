@@ -1,0 +1,48 @@
+---
+- name: Create Users - Loop
+  hosts: localhost
+  become: yes
+  tasks:
+  - name: Create Users
+    user: name='{{ item.name }}' state=present uid='{{ item.uid }}'
+    loop:
+    - name: joe
+      uid: 1000
+    - name: john
+      uid: 1001
+    - name: jacob
+      uid: 1002
+    - name: ravi
+      uid: 1003
+    - name: ram
+      uid: 1004
+
+---
+- name: Create Users - with_ directives
+  hosts: localhost
+  become: yes
+  tasks:
+  - name: Create Users
+    user: name='{{ item }}' state=present
+    with_items:
+    - joe
+    - john
+    - ram
+    - ravi
+
+---
+
+- name: 'Install required packages'
+  hosts: localhost
+  become: yes
+  vars:
+    packages:
+      - httpd
+      - make
+      - vim
+  tasks:
+    - yum:
+        name: '{{ item }}'
+        state: present
+      with_items: 
+        - '{{ packages }}'

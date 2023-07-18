@@ -1,0 +1,48 @@
+---
+- name: Setup nginx
+  hosts: all
+  become: yes
+  tasks:
+    - name: install nginx on RedHat
+      yum:
+        name: httpd
+        state: installed
+      when: ansible_os_family == 'RedHat' or ansible_os_family == 'SUSE'
+    - name: install nginx on Debian
+      yum:
+        name: httpd
+        state: installed
+      when: ansible_os_family == 'Debian' and ansible_distribution_version == '20.04'
+
+---
+
+- name: Install packages - Conditional Loop
+  hosts: all
+  become: yes
+  vars:
+    packages:
+      - name: nginx
+        required: True
+      - name: apache
+        required: False
+      - name: mysql
+        required: True
+  tasks:
+    - name: 'Install {{ item.name }} package'
+      apt:
+        name: {{ item.name }}
+        state: present
+      when: item.required == True
+      loop: '{{ packages }}'
+
+---
+- name: Check status and email if it's down - Conditional Register
+  hosts: localhost
+  tasks:
+    - command: service httpd status
+      register: result
+    - mail:
+        to: admin@demo.com
+        subject: Service Alert
+        body: httpd server is down
+        when: result.stdout.find('down') != -1

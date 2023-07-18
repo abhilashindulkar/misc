@@ -1,0 +1,33 @@
+---
+- name: Variable Demo - Jinja2 templating.
+  hosts: all
+  become: yes
+  vars:
+    dnsserver: 10.2.0.22
+  tasks:
+  - name: Add DNS server to resolve.conf
+    lineinfile:
+       path: /etc/resolv.conf
+       line: 'nameserver {{ dnsserver }}'
+
+---
+- name: Set Firewall configurations
+  hosts: webserver
+  become: true
+  tasks:
+  - firewalld:
+      service: https
+      permanent: true
+      state: enabled
+  - firewalld:
+      source: '{{ inter_ip_range }}'/24
+      zone: internal
+      state: disabled
+  - firewalld:
+      port: '{{ http_port }}'/tcp
+      permanent: true
+      state: disabled
+  - firewalld:
+      port: '{{ snmp_port }}'/udp
+      permanent: true
+      state: disabled

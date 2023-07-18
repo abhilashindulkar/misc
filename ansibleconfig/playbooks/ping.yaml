@@ -1,0 +1,9 @@
+---
+- 
+ name: Test connectivity for the target servers
+  hosts: all
+  tasks:
+  - name: Ping Test
+    ping:
+  - name: Display hosts file
+    command: cat hosts chdir=/etc/
