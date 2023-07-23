@@ -15,7 +15,6 @@ spec:
         type: front-end
     spec:
       containers:
-        - name: myapp
-          image: nginx
-  
+      - name: myapp
+        image: nginx
   replicas: 2
