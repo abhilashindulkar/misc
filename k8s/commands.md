@@ -211,7 +211,6 @@ kubectl create secret docker-registry registrycreds --docker-server=https://inde
 ```
 kubectl create token service-account-name  # with 1.24, service account doesnt get created with secret and non expiry token.
 ```
-
 35. CSR commands
 ```
 kubectl get csr
@@ -223,4 +222,16 @@ kubectl certificate approve myuser
 kubectl certificate deny myuser
 
 kubectl delete -f csr-object.yaml
+```
+36. Check Role Access
+```
+kubectl auth can-i create deployments # validate
+
+kubectl auth can-i delete nodes --as dev-user # impersonate & validate
+
+kubectl auth can-i delete nodes --as dev-user --namespace demo # impersonate & validate in namespace
+```
+37. Count - roles created in all namespaces
+```
+kubectl get roles -A --no-headers | wc -l
 ```
