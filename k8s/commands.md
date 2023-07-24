@@ -52,8 +52,11 @@ kubectl get cronjob
 ```
 # In current namespace
 kubectl get all
+
 # all namespaces
 kubectl get all --all-namespaces/ -A
+
+kubectl get all -A -o wide
 ```
 14. Get Pods with labels/selectors
 ```
@@ -195,6 +198,9 @@ kubectl exec nginx -- tail -f /var/log/nginx/access.log  # checking logs within 
 ```
 echo -n "sometext" | base64
 
+# encoded cert
+cat ca.csr | base64 -w 0
+
 echo cm9vdA== | base64 --decode      #base64 encode and decode for secrets
 ```
 33. Create Secret for docker credentials
@@ -204,4 +210,17 @@ kubectl create secret docker-registry registrycreds --docker-server=https://inde
 34. Create Kubernetes service account token
 ```
 kubectl create token service-account-name  # with 1.24, service account doesnt get created with secret and non expiry token.
+```
+
+35. CSR commands
+```
+kubectl get csr
+
+kubectl create -f csr-object.yaml
+
+kubectl certificate approve myuser
+
+kubectl certificate deny myuser
+
+kubectl delete -f csr-object.yaml
 ```

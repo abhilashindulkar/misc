@@ -32,3 +32,4 @@ EndpointSlice  | discovery.k8s.io/v1
 NetworkPolicy | networking.k8s.io/v1
 Ingress  | networking.k8s.io/v1
 IngressController | networking.k8s.io/v1
+CertificateSigningRequest | certificates.k8s.io/v1
