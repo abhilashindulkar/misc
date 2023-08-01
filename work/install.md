@@ -40,7 +40,8 @@ sudo yum module disable mysql
 
 Oracle JAVA8
 
-wget https://ovaledge.s3-us-west-1.amazonaws.com/OvalEdge+Clients/CHKD/jdk-8u251-linux-i586.rpm
+Use the below link for jdk8 download.
+https://www.oracle.com/in/java/technologies/javase/javase8-archive-downloads.html
 
 yum install yum-utils && clean all
 
