@@ -1,0 +1,31 @@
+---
+# Definition for manually scheduling existing Pod.(pb-manual-schedule)
+# Pod stays in a pending state if scheduler is not running.
+apiVersion: v1
+kind: Binding
+metadata:
+  name: pb-manual-schedule
+target:
+  apiVersion: v1
+  kind: Node
+  name: node02
+
+---
+# Pod definition with nodeName.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pod
+  labels:
+    name: test-pod
+spec:
+  nodeName: node02
+  containers:
+    - name: test-pod-container
+      image: nginx
+      ports:
+        - containerPort: 80
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1Gi
