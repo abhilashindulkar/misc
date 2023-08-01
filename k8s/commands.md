@@ -116,6 +116,9 @@ kubectl apply -f some-yml
 23. Quick Create Pod - Imperative
 ```
 kubectl run nginx --image=nginx
+
+# create pod, service
+kubectl run nginx --image nginx --port 80 --expose true
 ```
 24. Get all details in different formats
 ```
@@ -148,11 +151,12 @@ kubectl create configmap <somecm-name> --from-file=file.properties
 
 kubectl create secret <somesecret-name> --from-file=file.properties
 ```
-27. Taint Node (Avoid scheduling of pods)
+27. Taint/Untaint Node (Avoid scheduling of pods)
 ```
 kubectl taint node <node-name> key=value:taint-effect(NoSchedule,PreferNoSchedule,NoExecute)
 
-kubectl taint node master taint-effect-
+# Untaint Node
+kubectl taint node master key=value:taint-effect-
 ```
 28. Get Manifest details
 ```

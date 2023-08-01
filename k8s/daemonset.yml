@@ -1,3 +1,6 @@
+---
+# ensures one instance of an app is running on each nodes.
+# usecase - monitoring, logging agents. kubeproxy, weave-net.
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
@@ -14,9 +17,8 @@ spec:
         app: fluentd
     spec:
       containers:
-      - name: elasticseach
-        image: registry.k8s.io/fluentd-elasticsearch:1.20
+        - name: elasticseach
+          image: registry.k8s.io/fluentd-elasticsearch:1.20
   selector:
     matchLabels:
       app: fluentd
-      

@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 kind: Pod
 metadata:
@@ -5,12 +6,18 @@ metadata:
   labels:
     app: app-pod
     type: frontend
-
 spec:
   containers:
-  - name: nginx-app
-    image: nginx
-    env:
-    - name: key
-      value: value
+    - name: nginx-app
+      image: nginx
+      env:
+        - name: key
+          value: value
+      resources:
+        requests:
+          cpu: 50m
+          memory: 250Gi
+        limits:
+          cpu: 200m
+          memory: 500Gi
   restartPolicy: Never/Always(default)/OnFailure
