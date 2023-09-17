@@ -239,3 +239,38 @@ kubectl auth can-i delete nodes --as dev-user --namespace demo # impersonate & v
 ```
 kubectl get roles -A --no-headers | wc -l
 ```
+38. Drain/Cordon/Uncordon node.
+```
+# drains node, evicts all pods, schedulingDisabled.
+kubectl drain node01 --ignore-daemonsets
+
+# cordon - evicts all pods.
+kubectl cordon node01
+
+# uncordon - makes the node available for pod scheduling.
+kubectl uncordon node01
+```
+39. Node Upgrade
+```
+kubeadm upgrade plan v1.25.0
+
+kubeadm upgrade apply v1.25.1
+```
+40. Backup all resources
+```
+kubectl get all -A -o yaml > all-namespaces-resources.yml
+```
+41. Backup ETCD
+```
+# backup
+ETCDCTL_API=3 etcdctl snapshot save snapshot.db --certificates --endpoint --key
+
+# status
+ETCDCTL_API=3 etcdctl snapshot status snapshot.db ---
+
+# restore
+service kube-apiserver stop
+ETCDCTL_API=3 etcdctl snapshot restore snapshot.db --data-dir=/var/lib/etcd-backup
+systemctl daemon-reload
+service kube-apiserver start
+```

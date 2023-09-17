@@ -13,6 +13,6 @@ spec:
         nodeSelectorTerms:
           - matchExpressions:
               - key: size
-                operator: In    #/NotIn/Exists
+                operator: In    # /NotIn/Exists
                 values:
                   - Small
