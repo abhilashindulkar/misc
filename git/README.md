@@ -36,6 +36,12 @@ git remote -v
 # List all branches including ones in remote.
 git branch -a
 
+# Check local branch existence
+git rev-parse --verify <branch-name>
+
+# Check remote branch existence
+git ls-remote --quiet --heads <branch-name>
+
 # Create and also switch to a new branch.
 git checkout -b new-branch
 
