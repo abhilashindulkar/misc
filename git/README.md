@@ -42,6 +42,9 @@ git rev-parse --verify <branch-name>
 # Check remote branch existence
 git ls-remote --quiet --heads <branch-name>
 
+# Check default branch
+git remote show origin | grep 'HEAD branch' | cut -d' ' -f5
+
 # Create and also switch to a new branch.
 git checkout -b new-branch
 
