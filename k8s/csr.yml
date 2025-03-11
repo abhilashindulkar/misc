@@ -9,5 +9,6 @@ spec:
     - digital signature
     - key encipherment
     - server auth
-  request:
-    cert data in base64 format
+  request: |
+    # base64 file.csr
+    # cert data in base64 format
