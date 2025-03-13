@@ -28,7 +28,7 @@ spec:
       storage: 1Gi
   storageClass: slow
 
-  ---
+---
 
 apiVersion: v1
 kind: Pod
