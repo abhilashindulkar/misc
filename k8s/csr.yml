@@ -1,0 +1,14 @@
+apiVersion: certificates.k8s.io/v1
+kind: CertificateSigningRequest
+metadata:
+  name: jane
+spec:
+  signerName: kubernetes.io/kube-apiserver-client
+  expirationSeconds: 600 # seconds
+  usage:
+    - digital signature
+    - key encipherment
+    - server auth
+  request: |
+    # base64 file.csr
+    # cert data in base64 format

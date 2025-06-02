@@ -1,0 +1,39 @@
+# Example 1: Web Application PDB
+# Ensures at least 2 web pods remain available during disruptions
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: web-app-pdb
+  namespace: production
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: web-server
+      tier: frontend
+
+---
+
+# Corresponding Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-server
+  namespace: production
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: web-server
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: web-server
+        tier: frontend
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.21
+        ports:
+        - containerPort: 80
