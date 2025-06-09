@@ -1,0 +1,23 @@
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: high-priority
+value: 1000000000 # higher the value; higher the priority
+description: "priority class for mission critical apps"
+globalDefault: true # applied to all the pods where priorityclass is not defined.
+preemptionPolicy: Never # PreemptLowerPriority - kills pods with lower priority and gives pref for scheduling high priority. # Never - Wouldn't kill existing pods.
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: samplepod
+  labels:
+    app: app-pod
+    type: frontend
+spec:
+  containers:
+    - name: nginx-app
+      image: nginx
+  priorityClassName: high-priority
