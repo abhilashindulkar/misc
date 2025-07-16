@@ -123,10 +123,10 @@ git push origin new-feat -f
 git revert <commit-id>
 
 # Reset commit, moves the HEAD to specified commit, discards the changes in working directory. other commits are deleted.
-git reset --HARD <commit-id>
+git reset --hard <commit-id>
 
 # Reset commit, moves the HEAD to specified commit, preserves the changes made after the commit as staged changes.
-git reset --SOFT <commit-id>
+git reset --soft <commit-id>
 ```
 
 - Open Source Code Contribution
