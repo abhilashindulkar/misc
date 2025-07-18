@@ -1,3 +1,5 @@
+# Kubernetes
+
 ## Kyverno
 [Kyverno](https://kyverno.io/docs/introduction/) is an open-source, Kubernetes-native policy engine that helps you define, validate, mutate, and generate Kubernetes resources using policies written in YAML, without needing to learn a separate programming language like Rego (used by OPA).
 
@@ -7,4 +9,13 @@ It is developed and maintained by Loft Labs. It provides multi-tenancy, environm
 
 ## kubectx
 [kubectx](https://github.com/ahmetb/kubectx) is a tool to switch between contexts (clusters) on kubectl faster. kubens is a tool to switch between Kubernetes namespaces (and configure them for kubectl) easily.
+
+
+# Terraform
+
+## opetofu
+[opentofu](https://opentofu.org/) is a reliable, flexible, community-driven infrastructure as code tool under the Linux Foundation's stewardship. It serves as a drop-in replacement for Terraform, preserving your existing workflows and configurations.
+
+## terragrunt
+[terragrunt](https://terragrunt.gruntwork.io/) is a flexible orchestration tool that allows Infrastructure as Code to scale. It keeps code/configs/arguments DRY.
 
