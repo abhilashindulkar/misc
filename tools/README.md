@@ -21,3 +21,13 @@ It is developed and maintained by Loft Labs. It provides multi-tenancy, environm
 
 ## terraform-docs
 [terraform-docs](https://terraform-docs.io/user-guide/introduction/) is a command-line utility designed to automatically generate documentation from Terraform modules. It helps maintain consistent and up-to-date documentation for your infrastructure as code, particularly for reusable modules. 
+
+## tfsec
+[tfsec](https://github.com/aquasecurity/tfsec) uses static analysis of your terraform code to spot potential misconfigurations & security issues.
+
+## tflint
+[TFLint](https://github.com/terraform-linters/tflint) is an open-source static analysis tool specifically designed for Terraform configurations. Its primary purpose is to improve the quality, consistency, and reliability of Terraform code by identifying potential issues, errors, and violations of best practices. 
+
+## infracost
+[Infracost](https://github.com/infracost/infracost) is an open-source tool designed to provide cloud cost estimates for infrastructure defined using Terraform. It helps engineers and FinOps teams understand the financial implications of their infrastructure changes before they are applied, enabling informed decision-making and cost optimization.
+
