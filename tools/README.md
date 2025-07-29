@@ -31,3 +31,6 @@ It is developed and maintained by Loft Labs. It provides multi-tenancy, environm
 ## infracost
 [Infracost](https://github.com/infracost/infracost) is an open-source tool designed to provide cloud cost estimates for infrastructure defined using Terraform. It helps engineers and FinOps teams understand the financial implications of their infrastructure changes before they are applied, enabling informed decision-making and cost optimization.
 
+## pre-commit-terraform
+[pre-commit-terraform](https://github.com/antonbabenko/pre-commit-terraform) provides a collection of Git Hooks for Terraform and related tools and is driven by the pre-commit framework. It helps ensure that Terraform, OpenTofu, and Terragrunt configurations are kept in good shape by automatically running various checks and formatting code before committing changes to version control system. This helps maintain code quality and consistency across the project.
+
