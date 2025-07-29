@@ -19,3 +19,5 @@ It is developed and maintained by Loft Labs. It provides multi-tenancy, environm
 ## terragrunt
 [terragrunt](https://terragrunt.gruntwork.io/) is a flexible orchestration tool that allows Infrastructure as Code to scale. It keeps code/configs/arguments DRY.
 
+## terraform-docs
+[terraform-docs](https://terraform-docs.io/user-guide/introduction/) is a command-line utility designed to automatically generate documentation from Terraform modules. It helps maintain consistent and up-to-date documentation for your infrastructure as code, particularly for reusable modules. 
