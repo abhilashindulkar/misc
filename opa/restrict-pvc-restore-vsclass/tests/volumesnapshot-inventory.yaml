@@ -1,0 +1,39 @@
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshot
+metadata:
+  name: valid-snapshot
+  namespace: 123456-1-app
+spec:
+  source:
+    persistentVolumeClaimName: some-pvc
+  volumeSnapshotClassName: 123456-1-vsclass
+status:
+  readyToUse: true
+
+---
+
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshot
+metadata:
+  name: not-ready-snapshot
+  namespace: 123456-1-app
+spec:
+  source:
+    persistentVolumeClaimName: some-pvc
+  volumeSnapshotClassName: 123456-1-vsclass
+status:
+  readyToUse: false
+
+---
+
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshot
+metadata:
+  name: wrong-class-snapshot
+  namespace: 123456-1-app
+spec:
+  source:
+    persistentVolumeClaimName: some-pvc
+  volumeSnapshotClassName: 654321-9-vsclass
+status:
+  readyToUse: true

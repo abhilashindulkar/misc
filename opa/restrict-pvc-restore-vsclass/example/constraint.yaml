@@ -1,0 +1,10 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: PVCRestorePolicy
+metadata:
+  name: enforce-pvc-restore-rules
+spec:
+  enforcement: warn ## to enforce - use deny
+  match:
+    kinds:
+      - apiGroups: [""]
+        kinds: ["PersistentVolumeClaim"]

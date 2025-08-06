@@ -1,0 +1,53 @@
+apiVersion: templates.gatekeeper.sh/v1beta1
+kind: ConstraintTemplate
+metadata:
+  name: pvcrestorepolicy
+spec:
+  crd:
+    spec:
+      names:
+        kind: PVCRestorePolicy
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+
+        package pvcrestorepolicy
+
+        pvc_with_snapshot {
+          input.review.kind.kind == "PersistentVolumeClaim"
+          input.review.object.spec.dataSource.kind == "VolumeSnapshot"
+        }
+
+        # Check if snapshot exists
+        violation[{"msg": msg}] {
+          pvc_with_snapshot
+          snapshot_name := input.review.object.spec.dataSource.name
+          ns := input.review.object.metadata.namespace
+
+          not data.inventory.namespace[ns]["snapshot.storage.k8s.io/v1"]["VolumeSnapshot"][snapshot_name]
+          msg := sprintf("PVC restore denied: VolumeSnapshot '%v' not found in namespace '%v'", [snapshot_name, ns])
+        }
+
+        # Snapshot exists but not ReadyToUse
+        violation[{"msg": msg}] {
+          pvc_with_snapshot
+          snapshot_name := input.review.object.spec.dataSource.name
+          ns := input.review.object.metadata.namespace
+
+          snapshot := data.inventory.namespace[ns]["snapshot.storage.k8s.io/v1"]["VolumeSnapshot"][snapshot_name]
+          not snapshot.status.readyToUse
+          msg := sprintf("PVC restore denied: VolumeSnapshot '%v' is not ReadyToUse", [snapshot_name])
+        }
+
+        # Enforce VolumeSnapshotClass naming
+        violation[{"msg": msg}] {
+          pvc_with_snapshot
+          tenant_nar_id := input.review.object.metadata.labels["tenant_nar_id"]
+          snapshot_name := input.review.object.spec.dataSource.name
+          ns := input.review.object.metadata.namespace
+
+          snapshot := data.inventory.namespace[ns]["snapshot.storage.k8s.io/v1"]["VolumeSnapshot"][snapshot_name]
+          vsc := snapshot.spec.volumeSnapshotClassName
+          not startswith(vsc, tenant_nar_id)
+          msg := sprintf("PVC restore denied: VolumeSnapshotClass '%v' must be prefixed with tenant_nar_id '%v'", [vsc, tenant_nar_id])
+        }

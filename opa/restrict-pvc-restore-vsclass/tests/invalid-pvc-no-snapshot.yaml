@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: invalid-no-snapshot
+  namespace: 123456-1-app
+  labels:
+    tenant_nar_id: "123456-1"
+spec:
+  dataSource:
+    name: missing-snapshot
+    kind: VolumeSnapshot
+    apiGroup: snapshot.storage.k8s.io
