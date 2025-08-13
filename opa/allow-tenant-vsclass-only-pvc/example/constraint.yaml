@@ -1,0 +1,10 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sTenantVolumeSnapshotClassMatch
+metadata:
+  name: enforce-pvc-restore-rules
+spec:
+  enforcementAction: warn ## to enforce - use deny
+  match:
+    kinds:
+      - apiGroups: [""]
+        kinds: ["PersistentVolumeClaim"]

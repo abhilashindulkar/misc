@@ -1,0 +1,48 @@
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotClass
+metadata:
+  name: 123456-1-vsclass
+driver: hostpath.csi.k8s.io
+deletionPolicy: Delete
+parameters:
+  labels:
+    "tenant_nar_id=123456-1,key1=value1"
+---
+
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshot
+metadata:
+  name: valid-snapshot
+  namespace: 123456-1-app
+spec:
+  source:
+    persistentVolumeClaimName: some-pvc
+  volumeSnapshotClassName: 123456-1-vsclass
+status:
+  readyToUse: true
+
+---
+
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotClass
+metadata:
+  name: 654321-9-vsclass
+driver: hostpath.csi.k8s.io
+deletionPolicy: Delete
+parameters:
+  labels:
+    tenant_nar_id=654321-9
+
+---
+
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshot
+metadata:
+  name: wrong-class-snapshot
+  namespace: 234567-1-app
+spec:
+  source:
+    persistentVolumeClaimName: some-pvc
+  volumeSnapshotClassName: 654321-9-vsclass
+status:
+  readyToUse: true

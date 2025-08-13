@@ -1,4 +1,4 @@
-apiVersion:
+apiVersion: v1
 kind: Namespace
 metadata:
   name: 123456-1-app

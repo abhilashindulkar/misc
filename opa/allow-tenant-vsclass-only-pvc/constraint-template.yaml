@@ -1,0 +1,61 @@
+apiVersion: templates.gatekeeper.sh/v1
+kind: ConstraintTemplate
+metadata:
+  name: k8stenantvolumesnapshotclassmatch
+spec:
+  crd:
+    spec:
+      names:
+        kind: K8sTenantVolumeSnapshotClassMatch
+      validation:
+        openAPIV3Schema:
+          type: object
+          properties: {}
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package k8stenantvolumesnapshotclassmatch
+
+        violation[{"msg": msg}] {
+          # Only inspect PersistentVolumeClaims created from a VolumeSnapshot
+          input.review.kind.kind == "PersistentVolumeClaim"
+          input.review.object.spec.dataSource.kind == "VolumeSnapshot"
+          input.review.object.spec.dataSource.apiGroup == "snapshot.storage.k8s.io"
+
+          # Get Namespace and its tenant label
+          namespace_obj := data.inventory.cluster["v1"].Namespace[input.review.object.metadata.namespace]
+          ns_tenant := namespace_obj.metadata.labels.tenant_nar_id
+
+          # Get VolumeSnapshot and VolumeSnapshotClass objects from inventory
+          snap_name := input.review.object.spec.dataSource.name
+          snap_namespace := input.review.object.metadata.namespace
+          snapshot := data.inventory.namespace[snap_namespace]["snapshot.storage.k8s.io/v1"].VolumeSnapshot[snap_name]
+          class_name := snapshot.spec.volumeSnapshotClassName
+          vsc := data.inventory.cluster["snapshot.storage.k8s.io/v1"].VolumeSnapshotClass[class_name]
+
+          # --- COMPATIBLE PARSING LOGIC ---
+          # 1. Get the full string from parameters.labels
+          label_string := vsc.parameters.labels
+
+          # 2. Remove all spaces from the string to handle inconsistent formatting.
+          # e.g., "key1=val1, key2=val2" becomes "key1=val1,key2=val2"
+          label_string_no_spaces := replace(label_string, " ", "")
+
+          # 3. Split the clean string by "," to get an array of key=value pairs
+          pairs := split(label_string_no_spaces, ",")
+
+          # 4. Find the specific pair that contains the tenant_nar_id
+          # The 'some' keyword iterates through the array
+          some i
+          startswith(pairs[i], "tenant_nar_id=")
+          tenant_pair_string := pairs[i]
+
+          # 5. Split the found pair by "=" to isolate the value
+          tenant_parts := split(tenant_pair_string, "=")
+          class_tenant := tenant_parts[1]
+
+          # 6. Compare the tenant ID from the namespace with the one from the VolumeSnapshotClass
+          ns_tenant != class_tenant
+
+          msg := sprintf("Namespace tenant_nar_id '%v' does not match the tenant_nar_id '%v' found in VolumeSnapshotClass parameters", [ns_tenant, class_tenant])
+        }
