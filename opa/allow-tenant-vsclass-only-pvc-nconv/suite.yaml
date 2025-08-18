@@ -1,0 +1,22 @@
+apiVersion: test.gatekeeper.sh/v1alpha1
+kind: Suite
+metadata:
+  name: tenant-allow-vsclass-pvc-suite
+tests:
+  - name: restore-pvc-tenant-vsclass-validation
+    template: constraint-template.yaml
+    constraint: example/constraint.yaml
+    cases:
+      - name: "Allow - Valid PVC restore attempt by tenant"
+        object: tests/valid-pvc-vsclass.yaml
+        inventory:
+          - tests/volumesnapshot-inventory.yaml
+        assertions:
+          - violations: no
+      - name: "Deny - Invalid PVC restore - mismatched volumesnapshotclass"
+        object: tests/invalid-pvc-vsclass.yaml
+        inventory:
+          - tests/volumesnapshot-inventory.yaml
+          - tests/namespace-inventory.yaml
+        assertions:
+          - violations: yes

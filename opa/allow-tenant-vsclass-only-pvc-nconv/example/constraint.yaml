@@ -1,0 +1,11 @@
+# 2-constraint-pvc-label.yaml
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: PvcVolumeSnapshotClassNaming
+metadata:
+  name: enforce-tenant-pvc-label-snapshotclass-prefix
+spec:
+  match:
+    kinds:
+      - apiGroups: [""]
+        kinds: ["PersistentVolumeClaim"]
+    excludedNamespaces: ["kube-system", "gatekeeper-system"]

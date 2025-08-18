@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: 123456-1-app
+  labels:
+    tenant_nar_id: 123456-1
+  annotations:
+    nar_id: 123456-1
+
+---
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: 234567-1-app
+  labels:
+    tenant_nar_id: 234567-1
+  annotations:
+    nar_id: 234567-1

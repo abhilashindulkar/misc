@@ -1,0 +1,44 @@
+apiVersion: templates.gatekeeper.sh/v1
+kind: ConstraintTemplate
+metadata:
+  name: pvcvolumesnapshotclassnaming
+  annotations:
+    description: "Enforces that a PVC restored from a VolumeSnapshot has a tenant_nar_id label that matches the prefix of the VolumeSnapshotClass name."
+spec:
+  crd:
+    spec:
+      names:
+        kind: PvcVolumeSnapshotClassNaming
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package pvcvolumesnapshotclassnaming
+
+        violation[{"msg": msg}] {
+          # The policy applies to PersistentVolumeClaim resources
+          input.review.kind.kind == "PersistentVolumeClaim"
+
+          # Check if the PVC is being created from a VolumeSnapshot
+          pvc := input.review.object
+          is_volume_snapshot_source := pvc.spec.dataSource.kind == "VolumeSnapshot"
+          
+          is_volume_snapshot_source == true
+
+          # Get the tenant_nar_id from the PVC's labels
+          tenant_nar_id := pvc.metadata.labels.tenant_nar_id
+
+          # Get the name of the VolumeSnapshot
+          snapshot_name := pvc.spec.dataSource.name
+          snapshot_namespace := pvc.metadata.namespace
+
+          # Look up the VolumeSnapshot in the replicated data
+          snapshot := data.inventory.namespace[snapshot_namespace]["snapshot.storage.k8s.io/v1"]["VolumeSnapshot"][snapshot_name]
+
+          # Get the VolumeSnapshotClass name from the snapshot
+          volumesnapshotclass_name := snapshot.spec.volumeSnapshotClassName
+
+          # Check if the VolumeSnapshotClass name starts with the tenant_nar_id
+          not startswith(volumesnapshotclass_name, tenant_nar_id)
+
+          msg := sprintf("The VolumeSnapshotClass name '%v' must start with the tenant_nar_id label '%v'.", [volumesnapshotclass_name, tenant_nar_id])
+        }
