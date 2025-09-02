@@ -1,0 +1,153 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  annotations:
+    deprecated.daemonset.template.generation: "1"
+    meta.helm.sh/release-name: otel-collector
+    meta.helm.sh/release-namespace: default
+  creationTimestamp: "2025-09-01T15:54:53Z"
+  generation: 1
+  labels:
+    app.kubernetes.io/component: agent-collector
+    app.kubernetes.io/instance: otel-collector
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: opentelemetry-collector
+    app.kubernetes.io/part-of: opentelemetry-collector
+    app.kubernetes.io/version: 0.133.0
+    helm.sh/chart: opentelemetry-collector-0.132.0
+  name: otel-collector-opentelemetry-collector-agent
+  namespace: default
+  resourceVersion: "2228936"
+  uid: 02f8180e-a92e-40c2-8abb-5feeea85bf7f
+spec:
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: otel-collector
+      app.kubernetes.io/name: opentelemetry-collector
+      component: agent-collector
+  template:
+    metadata:
+      annotations:
+        checksum/config: 5bbbe9b9ea10e925a5aa2bf8c6230dc84db4e8b23c79eb648bd3ef3ab7677958
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/instance: otel-collector
+        app.kubernetes.io/name: opentelemetry-collector
+        component: agent-collector
+    spec:
+      automountServiceAccountToken: true
+      containers:
+      - args:
+        - --config=/conf/relay.yaml
+        env:
+        - name: MY_POD_IP
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: status.podIP
+        - name: K8S_NODE_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: spec.nodeName
+        - name: K8S_NODE_IP
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: status.hostIP
+        image: otel/opentelemetry-collector-k8s:0.133.0
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /
+            port: 13133
+            scheme: HTTP
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        name: opentelemetry-collector
+        ports:
+        - containerPort: 6831
+          hostPort: 6831
+          name: jaeger-compact
+          protocol: UDP
+        - containerPort: 14250
+          hostPort: 14250
+          name: jaeger-grpc
+          protocol: TCP
+        - containerPort: 14268
+          hostPort: 14268
+          name: jaeger-thrift
+          protocol: TCP
+        - containerPort: 4317
+          hostPort: 4317
+          name: otlp
+          protocol: TCP
+        - containerPort: 4318
+          hostPort: 4318
+          name: otlp-http
+          protocol: TCP
+        - containerPort: 9411
+          hostPort: 9411
+          name: zipkin
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /
+            port: 13133
+            scheme: HTTP
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources: {}
+        securityContext: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /conf
+          name: opentelemetry-collector-configmap
+        - mountPath: /var/log/pods
+          name: varlogpods
+          readOnly: true
+        - mountPath: /var/lib/docker/containers
+          name: varlibdockercontainers
+          readOnly: true
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: otel-collector-opentelemetry-collector
+      serviceAccountName: otel-collector-opentelemetry-collector
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - configMap:
+          defaultMode: 420
+          items:
+          - key: relay
+            path: relay.yaml
+          name: otel-collector-opentelemetry-collector-agent
+        name: opentelemetry-collector-configmap
+      - hostPath:
+          path: /var/log/pods
+          type: ""
+        name: varlogpods
+      - hostPath:
+          path: /var/lib/docker/containers
+          type: ""
+        name: varlibdockercontainers
+  updateStrategy:
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+    type: RollingUpdate
+status:
+  currentNumberScheduled: 1
+  desiredNumberScheduled: 1
+  numberAvailable: 1
+  numberMisscheduled: 0
+  numberReady: 1
+  observedGeneration: 1
+  updatedNumberScheduled: 1

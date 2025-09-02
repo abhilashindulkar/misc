@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    meta.helm.sh/release-name: otel-collector-cluster
+    meta.helm.sh/release-namespace: default
+  creationTimestamp: "2025-09-02T05:00:26Z"
+  labels:
+    app.kubernetes.io/component: standalone-collector
+    app.kubernetes.io/instance: otel-collector-cluster
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: opentelemetry-collector
+    app.kubernetes.io/part-of: opentelemetry-collector
+    app.kubernetes.io/version: 0.133.0
+    component: standalone-collector
+    helm.sh/chart: opentelemetry-collector-0.132.0
+  name: otel-collector-cluster-opentelemetry-collector
+  namespace: default
+  resourceVersion: "2560211"
+  uid: e6096b27-966b-4cb3-9ecc-724a0fecb3f2
+spec:
+  clusterIP: 10.102.180.172
+  clusterIPs:
+  - 10.102.180.172
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: jaeger-compact
+    port: 6831
+    protocol: UDP
+    targetPort: 6831
+  - name: jaeger-grpc
+    port: 14250
+    protocol: TCP
+    targetPort: 14250
+  - name: jaeger-thrift
+    port: 14268
+    protocol: TCP
+    targetPort: 14268
+  - appProtocol: grpc
+    name: otlp
+    port: 4317
+    protocol: TCP
+    targetPort: 4317
+  - name: otlp-http
+    port: 4318
+    protocol: TCP
+    targetPort: 4318
+  - name: zipkin
+    port: 9411
+    protocol: TCP
+    targetPort: 9411
+  selector:
+    app.kubernetes.io/instance: otel-collector-cluster
+    app.kubernetes.io/name: opentelemetry-collector
+    component: standalone-collector
+  sessionAffinity: None
+  type: LoadBalancer
+status:
+  loadBalancer: {}

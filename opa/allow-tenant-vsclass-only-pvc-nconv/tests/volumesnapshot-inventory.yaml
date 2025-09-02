@@ -31,7 +31,7 @@ driver: hostpath.csi.k8s.io
 deletionPolicy: Delete
 parameters:
   labels:
-    tenant_nar_id=123456-1
+    tenant_nar_id=234567-1
 
 ---
 

@@ -2,8 +2,6 @@ apiVersion: templates.gatekeeper.sh/v1
 kind: ConstraintTemplate
 metadata:
   name: pvcvolumesnapshotclassnaming
-  annotations:
-    description: "Enforces that a PVC restored from a VolumeSnapshot has a tenant_nar_id label that matches the prefix of the VolumeSnapshotClass name."
 spec:
   crd:
     spec:
