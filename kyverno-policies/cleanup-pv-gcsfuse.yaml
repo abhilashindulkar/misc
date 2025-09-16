@@ -1,0 +1,19 @@
+apiVersion: kyverno.io/v1
+kind: ClusterCleanupPolicy
+metadata:
+  name: cleanup-released-gcsfuse-pv
+spec:
+  match:
+    any:
+      - resources:
+          kinds:
+            - PersistentVolume
+  conditions:
+    all:
+      - key: "{{ target.status.phase }}"
+        operator: Equals
+        value: Released
+      - key: "{{ target.spec.csi.driver }}"
+        operator: Equals
+        value: gcsfuse.csi.storage.gke.io
+  schedule: "*/5 * * * *" # every 5 minutes for testing
