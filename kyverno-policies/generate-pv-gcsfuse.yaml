@@ -1,0 +1,42 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: generate-gcs-fuse-pv-from-pvc
+  annotations:
+    policies.kyverno.io/description: "Generates a PersistentVolume for GCS FUSE CSI Driver when a PVC is created."
+    policies.kyverno.io/subject: PersistentVolume, PersistentVolumeClaim
+spec:
+  rules:
+  - name: generate-gcs-fuse-pv
+    match:
+      resources:
+        kinds:
+          - PersistentVolumeClaim
+    preconditions:
+      all:
+      - key: '{{ request.object.metadata.annotations.\"gcsfuse-bucket-name\" }}'
+        operator: NotEquals
+        value: ""
+    generate:
+      apiVersion: v1
+      kind: PersistentVolume
+      name: "{{ request.object.metadata.namespace }}-{{ request.object.metadata.name }}"
+      synchronize: false
+      data:
+        spec:
+          capacity:
+            storage: "{{ request.object.spec.resources.requests.storage | default('1Gi') }}"
+          accessModes: "{{ request.object.spec.accessModes }}"
+          persistentVolumeReclaimPolicy: Retain
+          storageClassName: "{{ request.object.spec.resources.requests.storage }}"
+          mountOptions:
+            - implicit-dirs
+          csi:
+            driver: gcs-fuse.storage.gke.io
+            volumeHandle: '{{ request.object.metadata.annotations.\"gcsfuse-bucket-name\" }}' # Needs to be unique
+            volumeAttributes:
+              bucketName: "{{ request.object.metadata.annotations['gcs-fuse.storage.gke.io/bucket-name'] | default('your-default-bucket-name') }}"
+          claimRef:
+            name: "{{ request.object.metadata.name }}"
+            namespace: "{{ request.object.metadata.namespace }}"
+              
