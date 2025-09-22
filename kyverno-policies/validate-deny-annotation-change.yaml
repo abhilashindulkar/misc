@@ -1,0 +1,25 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: block-annotation-change
+spec:
+  validationFailureAction: enforce
+  rules:
+    - name: deny-annotation-change
+      match:
+        resources:
+          kinds:
+            - PersistentVolumeClaim
+      preconditions:
+        all:
+          - key: "{{ request.operation }}"
+            operator: Equals
+            value: UPDATE
+      validate:
+        message: "Changing the 'gcsfuse-bucket-name' annotation on PVCs is not allowed."
+        deny:
+          conditions:
+            all:
+              - key: "{{ request.object.metadata.annotations.\"gcsfuse-bucket-name\" }}"
+                operator: NotEquals
+                value: "{{ request.oldObject.metadata.annotations.\"gcsfuse-bucket-name\" }}"

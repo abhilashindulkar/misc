@@ -20,7 +20,7 @@ spec:
     generate:
       apiVersion: v1
       kind: PersistentVolume
-      name: "{{ request.object.metadata.namespace }}-{{ request.object.metadata.name }}"
+      name: "{{ printf "{{ truncate(join('-', [request.object.metadata.namespace, request.object.metadata.name]), 10) }}" }}"
       synchronize: false
       data:
         spec:
@@ -33,9 +33,7 @@ spec:
             - implicit-dirs
           csi:
             driver: gcs-fuse.storage.gke.io
-            volumeHandle: '{{ request.object.metadata.annotations.\"gcsfuse-bucket-name\" }}' # Needs to be unique
-            volumeAttributes:
-              bucketName: "{{ request.object.metadata.annotations['gcs-fuse.storage.gke.io/bucket-name'] | default('your-default-bucket-name') }}"
+            volumeHandle: "{{ request.object.metadata.annotations.\"gcsfuse-bucket-name\" }}:{{ random('[a-z0-9]{6}') }}"
           claimRef:
             name: "{{ request.object.metadata.name }}"
             namespace: "{{ request.object.metadata.namespace }}"
