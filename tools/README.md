@@ -10,6 +10,14 @@ It is developed and maintained by Loft Labs. It provides multi-tenancy, environm
 ## kubectx
 [kubectx](https://github.com/ahmetb/kubectx) is a tool to switch between contexts (clusters) on kubectl faster. kubens is a tool to switch between Kubernetes namespaces (and configure them for kubectl) easily.
 
+## Karpenter
+[Karpenter](https://karpenter.sh/)  improves the efficiency and cost of running workloads on Kubernetes clusters by:
+
+Watching for pods that the Kubernetes scheduler has marked as unschedulable
+Evaluating scheduling constraints (resource requests, nodeselectors, affinities, tolerations, and topology spread constraints) requested by the pods
+Provisioning nodes that meet the requirements of the pods
+Removing the nodes when the nodes are no longer needed
+
 
 # Terraform
 
