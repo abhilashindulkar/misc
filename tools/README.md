@@ -1,5 +1,8 @@
 # Kubernetes
 
+## Argo CD
+[ArgoCD](https://argo-cd.readthedocs.io/en/release-2.5/) is a declarative, GitOps continuous delivery tool for Kubernetes. Pull-based.
+
 ## Kyverno
 [Kyverno](https://kyverno.io/docs/introduction/) is an open-source, Kubernetes-native policy engine that helps you define, validate, mutate, and generate Kubernetes resources using policies written in YAML, without needing to learn a separate programming language like Rego (used by OPA).
 
